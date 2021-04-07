@@ -16,12 +16,12 @@ namespace ConsoleApp1
             {
                 
                 var line = Console.ReadLine();
-                game.DecidePlayerAction(line);
-                game.TurnCount++;
-                game.PerformEnemyActions();
 
                 if (line.Equals("Q"))
                     break;
+
+                game.DecidePlayerAction(line);
+                game.PerformEnemyActions();
             }
 
             Console.WriteLine("End");

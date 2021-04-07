@@ -11,6 +11,9 @@ namespace ConsoleApp1
         private Enemy _enemy;
         public int TurnCount { get; set; }
 
+        bool isSameRoom;
+        bool hasItem;
+
         public void Init()
         {
             int Height = 3;
@@ -19,7 +22,7 @@ namespace ConsoleApp1
             TurnCount = 0;
 
             _player = new Player();
-            _player.CurrentHealth = 10;
+            _player.CurrentHealth = 3;
             _player.InitPlayer(Height, Width);
 
             _map = new Map();
@@ -36,14 +39,36 @@ namespace ConsoleApp1
             if (action.Equals("search"))
             {
                 Search(_player.Location);
+            } else if (action.Equals("use")) {
+                Use(); // Not working when no item is available
             } else
             {
                 MovePlayer(action);
+                TurnCount++;
+            }
+        }
+
+        public void Use()
+        {
+            hasItem = _player.CheckIfHasItem();
+
+            if (hasItem && isSameRoom)
+            {
+                Console.WriteLine("Victory! You defeated the enemy.");
+                System.Environment.Exit(1);
+            } else
+            {
+                Console.WriteLine("You have no items you can use.");
             }
         }
 
         public void MovePlayer(String direction)
         {
+            if (isSameRoom)
+            {
+                _player.LoseHealth();
+            }
+
             _player.Move(direction);
         }
 
@@ -63,11 +88,13 @@ namespace ConsoleApp1
 
         public void PerformEnemyActions()
         {
-            MoveEnemy();
+            isSameRoom = IsEnemyInSameRoomAsPlayer();
             IsEnemyAdjToPlayer();
-            IsEnemyInSameRoomAsPlayer();
-            // If item is available, kill enemy
-            // If not, take damage
+            
+            if (!isSameRoom)
+            {
+                MoveEnemy();
+            }
         }
 
         public void MoveEnemy()
@@ -85,7 +112,7 @@ namespace ConsoleApp1
             if (_enemy.Location.X == _player.Location.X && _enemy.Location.Y == _player.Location.Y)
             {
                 isSameRoom = true;
-                Console.WriteLine("The enemy found you. Type [use] to use an item you have, or any direction to flee.");
+                Console.WriteLine("You and the enemy are in the same room! Type [use] to use an item you have, or any direction to flee.");
             }
 
             return isSameRoom;

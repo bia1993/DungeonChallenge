@@ -10,6 +10,9 @@ namespace ConsoleApp1
         public List<String> Items { get; set; }
         public Location Location { get; set; }
 
+        int width;
+        int height;
+
         public void InitPlayer(int width, int height)
         {
             Random r = new Random();
@@ -21,17 +24,27 @@ namespace ConsoleApp1
             Location.X = randomX;
             Location.Y = randomY;
 
-            Items = new List<string>();
+            this.width = width;
+            this.height = height;
 
-            Console.WriteLine("Player is at " + randomX + "," + randomY + ".");
+            Items = new List<string>();
         }
 
-        public void Use()
+        public void LoseHealth()
         {
-            if (Items.Count == 0)
+            CurrentHealth--;
+            Console.WriteLine("You lost 1 HP.");
+
+            if (CurrentHealth == 0)
             {
-                Console.WriteLine("You have no items you can use.");
-            } 
+                Console.WriteLine("You have been defeated.");
+                System.Environment.Exit(1);
+            }
+        }
+
+        public bool CheckIfHasItem()
+        {
+            return Items.Count != 0;
         }
 
         public void Move(String direction)
@@ -39,28 +52,16 @@ namespace ConsoleApp1
             switch (direction)
             {
                 case "north":
-                    Console.WriteLine("Moved " + direction + ".");
-                    Console.WriteLine("Was at " + Location.X + "," + Location.Y + ".");
-                    Location.Y = Location.Y < 9 ? Location.Y + 1 : Location.Y;
-                    Console.WriteLine("Is now at " + Location.X + "," + Location.Y + ".");
+                    Location.Y = Location.Y < height - 1 ? Location.Y + 1 : Location.Y;
                     break;
                 case "south":
-                    Console.WriteLine("Moved " + direction + ".");
-                    Console.WriteLine("Was at " + Location.X + "," + Location.Y + ".");
                     Location.Y = Location.Y > 0 ? Location.Y  - 1 : Location.Y;
-                    Console.WriteLine("Is now at " + Location.X + "," + Location.Y + ".");
                     break;
                 case "east":
-                    Console.WriteLine("Moved " + direction + ".");
-                    Console.WriteLine("Was at " + Location.X + "," + Location.Y + ".");
-                    Location.X = Location.X < 9 ? Location.X + 1 : Location.X;
-                    Console.WriteLine("Is now at " + Location.X + "," + Location.Y + ".");
+                    Location.X = Location.X < width - 1 ? Location.X + 1 : Location.X;
                     break;
                 case "west":
-                    Console.WriteLine("Moved " + direction + ".");
-                    Console.WriteLine("Was at " + Location.X + "," + Location.Y + ".");
                     Location.X = Location.X > 0 ? Location.X - 1 : Location.X;
-                    Console.WriteLine("Is now at " + Location.X + "," + Location.Y + ".");
                     break;
                 default:
                     Console.WriteLine("Invalid action.");

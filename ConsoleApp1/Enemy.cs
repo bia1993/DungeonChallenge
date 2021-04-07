@@ -23,8 +23,6 @@ namespace ConsoleApp1
 
             Location.X = randomX;
             Location.Y = randomY;
-            
-            Console.WriteLine("Enemy is at " + randomX + "," + randomY + ".");
         }
 
         public void MoveEnemy()
@@ -35,7 +33,6 @@ namespace ConsoleApp1
 
             Location.X = randomX;
             Location.Y = randomY;
-            Console.WriteLine("Enemy is now at " + randomX + "," + randomY + ".");
         }
         public bool CheckIfAdjToPlayer(Location playerLocation)
         {

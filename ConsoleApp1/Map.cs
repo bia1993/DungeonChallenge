@@ -29,7 +29,6 @@ namespace ConsoleApp1
             Board[randomX, randomY].Items = new List<string>();
             Board[randomX, randomY].Items.Add("Sword");
 
-            Console.WriteLine("Sword is at " + randomX + "," + randomY + ".");
         }
 
        public String Search(Location location)
