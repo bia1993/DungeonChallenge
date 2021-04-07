@@ -40,7 +40,7 @@ namespace ConsoleApp1
             {
                 Search(_player.Location);
             } else if (action.Equals("use")) {
-                Use(); // Not working when no item is available
+                Use(); 
             } else
             {
                 MovePlayer(action);
